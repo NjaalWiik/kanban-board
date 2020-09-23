@@ -182,3 +182,26 @@ function drag(e) {
   draggedItem = e.target;
   dragging = true;
 }
+
+// Column Allows for Item to Drop
+function allowDrop(e) {
+  e.preventDefault();
+}
+
+// Dropping Item in Column
+function drop(e) {
+  e.preventDefault();
+  const parent = listColumns[currentColumn];
+  // Remove Background Color/Padding
+  listColumns.forEach(column => {
+    column.classList.remove('over');
+  });
+  // Add item to Column
+  parent.appendChild(draggedItem);
+  // Dragging complete
+  dragging = false;
+  rebuildArrays();
+}
+
+// On Load
+updateDOM();
