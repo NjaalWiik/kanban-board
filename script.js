@@ -10,6 +10,7 @@ const completeList = document.getElementById('complete-list');
 const onHoldList = document.getElementById('on-hold-list');
 
 // Items
+let updatedOnLoad = false;
 
 // Initialize Arrays
 let backlogListArray = [];
@@ -35,9 +36,6 @@ function getSavedColumns() {
   }
 }
 
-getSavedColumns();
-updateSavedColumns();
-
 // Set localStorage Arrays
 function updateSavedColumns() {
   listArrays = [
@@ -50,11 +48,6 @@ function updateSavedColumns() {
   arrayNames.forEach((arrayName, index) =>
     localStorage.setItem(`${arrayName}Items`, JSON.stringify(listArrays[index]))
   );
-
-  // localStorage.setItem('backlogItems', JSON.stringify(backlogListArray));
-  // localStorage.setItem('progressItems', JSON.stringify(progressListArray));
-  // localStorage.setItem('completeItems', JSON.stringify(completeListArray));
-  // localStorage.setItem('onHoldItems', JSON.stringify(onHoldListArray));
 }
 
 // Create DOM Elements for each list item
@@ -71,9 +64,34 @@ function createItemEl(columnEl, column, item, index) {
 // Update Columns in DOM - Reset HTML, Filter Array, Update localStorage
 function updateDOM() {
   // Check localStorage once
+  if (!updatedOnLoad) {
+    getSavedColumns();
+  }
   // Backlog Column
+  backlogListEl.textContent = '';
+  backlogListArray.forEach((backlogItem, index) => {
+    createItemEl(backlogListEl, 0, backlogItem, index);
+  });
+  backlogListArray = filterArray(backlogListArray);
   // Progress Column
+  progressListEl.textContent = '';
+  progressListArray.forEach((progressItem, index) => {
+    createItemEl(progressListEl, 1, progressItem, index);
+  });
+  progressListArray = filterArray(progressListArray);
   // Complete Column
+  completeListEl.textContent = '';
+  completeListArray.forEach((completeItem, index) => {
+    createItemEl(completeListEl, 2, completeItem, index);
+  });
+  completeListArray = filterArray(completeListArray);
   // On Hold Column
-  // Run getSavedColumns only once, Update Local Storage
+  onHoldListEl.textContent = '';
+  onHoldListArray.forEach((onHoldItem, index) => {
+    createItemEl(onHoldListEl, 3, onHoldItem, index);
+  });
+  onHoldListArray = filterArray(onHoldListArray);
+  // Don't run more than once, Update Local Storage
+  updatedOnLoad = true;
+  updateSavedColumns();
 }
