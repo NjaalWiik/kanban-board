@@ -20,10 +20,10 @@ Here's a blank template to get started:
     <img src="images/logo.png" alt="Logo" width="100" height="100">
   </a>
 
-  <h3 align="center">TITLE</h3>
+  <h3 align="center">Kanban Board</h3>
 
   <p align="center">
-    DESCRIPTION
+    Front end project. My take on a trello/asana drag-and-drop canban board.
     <br />
     <a href="https://njaalwiik.github.io/kanban-board"><strong>View Demo »</strong></a>
     <br />
