@@ -45,20 +45,27 @@ function updateSavedColumns() {
     onHoldListArray
   ];
   const arrayNames = ['backlog', 'progress', 'complete', 'onHold'];
-  arrayNames.forEach((arrayName, index) =>
-    localStorage.setItem(`${arrayName}Items`, JSON.stringify(listArrays[index]))
-  );
+  arrayNames.forEach((arrayName, index) => {
+    localStorage.setItem(
+      `${arrayName}Items`,
+      JSON.stringify(listArrays[index])
+    );
+  });
 }
 
 // Create DOM Elements for each list item
 function createItemEl(columnEl, column, item, index) {
-  console.log('columnEl:', columnEl);
-  console.log('column:', column);
-  console.log('item:', item);
-  console.log('index:', index);
   // List Item
   const listEl = document.createElement('li');
+  listEl.textContent = item;
+  listEl.id = index;
   listEl.classList.add('drag-item');
+  listEl.draggable = true;
+  listEl.setAttribute('onfocusout', `updateItem(${index}, ${column})`);
+  listEl.setAttribute('ondragstart', 'drag(event)');
+  listEl.contentEditable = true;
+  // Append
+  columnEl.appendChild(listEl);
 }
 
 // Update Columns in DOM - Reset HTML, Filter Array, Update localStorage
@@ -95,3 +102,6 @@ function updateDOM() {
   updatedOnLoad = true;
   updateSavedColumns();
 }
+
+// On Load
+updateDOM();
